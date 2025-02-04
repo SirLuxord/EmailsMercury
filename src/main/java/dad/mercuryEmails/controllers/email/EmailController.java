@@ -25,6 +25,7 @@ public class EmailController implements Initializable {
     private String asunto;
     private String contenido;
 
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -55,16 +56,33 @@ public class EmailController implements Initializable {
     @FXML
     void onAnswerAction(ActionEvent event) {
 
-        EmailSender email = new EmailSender();
-        email.setUsername(usuario);
-        email.setPassword(contraseña);
-        email.setEmail(emailTextField.getText());
-        email.setAsunto(asuntoTextField.getText());
-        email.setContenido(contenidoTextField.getText());
-        if (!email.sendEmail()) {
-            mostrarError("Error al enviar el correo.");
-            throw new IllegalArgumentException("Error al enviar el correo.");
-        }
+        System.out.println(email + asunto);
+        SendEmailDialog sendEmailDialog = new SendEmailDialog(email, asunto);
+        Optional<EmailSender> result = sendEmailDialog.showAndWait();
+        result.ifPresent(email -> {
+
+            email.setUsername(usuario);
+            email.setPassword(contraseña);
+            System.out.println(email.getEmail());
+            System.out.println(email.getAsunto());
+            System.out.println(email.getContenido());
+            if (!email.sendEmail()){
+                mostrarError("Error al enviar el correo.");
+                throw new IllegalArgumentException("Error al enviar el correo.");
+            }
+        });
+
+
+//        EmailSender email = new EmailSender();
+//        email.setUsername(usuario);
+//        email.setPassword(contraseña);
+//        email.setEmail(emailTextField.getText());
+//        email.setAsunto(asuntoTextField.getText());
+//        email.setContenido(contenidoTextField.getText());
+//        if (!email.sendEmail()) {
+//            mostrarError("Error al enviar el correo.");
+//            throw new IllegalArgumentException("Error al enviar el correo.");
+//        }
 
     }
 
@@ -76,8 +94,9 @@ public class EmailController implements Initializable {
 
     public void setEmailInfo(String usuario,String contraseña,String email, String asunto, String contenido) {
         this.usuario = usuario;
+        this.email = usuario +"@localhost";
         this.contraseña = contraseña;
-        this.asunto = "Re: " + asunto;
+        this.asunto = asunto;
         this.contenido = contenido;
 
         emailTextField.setText(email);
