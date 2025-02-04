@@ -23,6 +23,7 @@ public class EmailController implements Initializable {
     private String contraseña;
     private String email;
     private String asunto;
+    private String contenido;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -73,13 +74,15 @@ public class EmailController implements Initializable {
         EmailApp.ocultarEmail();
     }
 
-    public void setEmailInfo(String usuario,String contraseña,String email, String asunto) {
+    public void setEmailInfo(String usuario,String contraseña,String email, String asunto, String contenido) {
         this.usuario = usuario;
         this.contraseña = contraseña;
         this.asunto = "Re: " + asunto;
+        this.contenido = contenido;
 
         emailTextField.setText(email);
         asuntoTextField.setText(this.asunto);
+        contenidoTextField.setText(this.contenido);
     }
 
     public GridPane getRoot() {

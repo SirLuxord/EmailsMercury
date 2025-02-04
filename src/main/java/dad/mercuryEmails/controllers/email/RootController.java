@@ -95,7 +95,9 @@ public class RootController implements Initializable {
         EmailController emailController = EmailApp.getEmailController();
         emailController.setEmailInfo(usuario, contraseña,
                 emailSeleccionado.getEmailRemitente(),
-                emailSeleccionado.getAsunto());
+                emailSeleccionado.getAsunto(),
+                emailSeleccionado.getContenido());
+
 
         EmailApp.mostrarEmail();
         EmailApp.ocultarRoot();
